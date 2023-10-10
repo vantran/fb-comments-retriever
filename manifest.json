@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Facebook comments retriever",
+  "version": "1.0",
+  "description": "Facebook comments retrieving",
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "action": {
+    "default_title": "Click to open panel"
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": false
+  },
+  "permissions": ["sidePanel", "tabs", "storage"],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+B",
+        "mac": "Command+B"
+      }
+    }
+  },
+  "icons": {
+    "16": "images/favicon-16x16.png",
+    "32": "images/favicon-32x32.png"
+  }
+}

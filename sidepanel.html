@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./sidepanel.css" />
+    <title>Facebook Comments Retriever</title>
+  </head>
+  <body>
+    <h1>Get Access Token</h1>
+    <div style="margin-bottom: 2em">
+      <div style="margin-bottom: 1em">
+        <strong>User Access Token</strong>
+        <div id="user-access-token" style="word-wrap: break-word"></div>
+      </div>
+
+      <div style="margin-bottom: 1em">
+        <strong>Page Access Token</strong>
+        <div id="page-access-token" style="word-wrap: break-word"></div>
+      </div>
+
+      <div style="text-align:center;">
+        <button id="fb-login" class="myBtn">
+          <strong>Login with Facebook</strong>
+        </button>
+      </div>
+    </div>
+
+    <hr />
+
+    <h1>Download Comments</h1>
+
+    <div style="margin-bottom: 2em">
+      <div style="margin-bottom: 1em">
+        Post ID
+        <input id="post-id" type="text" style="width: 100%" />
+      </div>
+
+      <div style="text-align:center;">
+        <button id="get-comments" class="myBtn">
+          <strong>Get comments</strong>
+        </button>
+      </div>
+    </div>
+
+    <div id="results">
+    </div>
+
+    <script src="./sidepanel.js" type="module"></script>
+  </body>
+</html>
