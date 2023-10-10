@@ -31,4 +31,3 @@ const restoreOptions = () => {
 };
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
-
