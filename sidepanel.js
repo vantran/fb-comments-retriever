@@ -60,7 +60,7 @@ getCommentsBtn.addEventListener('click', async () => {
   const { pageId } = await chrome.storage.sync.get(['pageId']);
   const { pageAccessToken } = await chrome.storage.local.get(['pageAccessToken']);
   const postId = document.getElementById('post-id').value;
-  let url = `https://graph.facebook.com/v18.0/${pageId}_${postId}/comments?limit=30&access_token=${pageAccessToken}`;
+  let url = `https://graph.facebook.com/v18.0/${pageId}_${postId}/comments?filter=stream&limit=500&access_token=${pageAccessToken}`;
 
   const rows = [
     ["Name", "User ID", "Comment", "Comment ID", "Comment URL", "Created Time"],
@@ -101,12 +101,14 @@ getCommentsBtn.addEventListener('click', async () => {
     results.innerHTML = '';
   }, 750);
 
-  let csvContent = "data:text/csv;charset=utf16le,\uFEFF" + rows.map(e => e.join("\t")).join("\r\n");
-  var encodedUri = encodeURI(csvContent);
-  var link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
+  const csvContent = rows.map(e => e.join("\t")).join("\r\n");
+  const csvData = new Blob([csvContent], { type: 'text/csv' }); //new way
+  const csvUrl = URL.createObjectURL(csvData);
+
+  const link = document.createElement("a");
+  link.setAttribute("href", csvUrl);
   link.setAttribute("download", "my_data.csv");
-  document.body.appendChild(link); // Required for FF
+  document.body.appendChild(link);
 
   link.click();
 });
