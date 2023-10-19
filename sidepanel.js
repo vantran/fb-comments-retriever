@@ -52,7 +52,9 @@ fbLoginBtn.addEventListener('click', async () => {
   window.open(url, '_blank');
 });
 
+const fields = 'id,created_time,from{name,id,picture.width(400).height(400)},message,link,icon,attachment';
 const getCommentsBtn = document.getElementById('get-comments');
+
 getCommentsBtn.addEventListener('click', async () => {
   const results = document.getElementById('results');
   results.innerHTML = 'Getting comments... Please wait...';
@@ -60,10 +62,10 @@ getCommentsBtn.addEventListener('click', async () => {
   const { pageId } = await chrome.storage.sync.get(['pageId']);
   const { pageAccessToken } = await chrome.storage.local.get(['pageAccessToken']);
   const postId = document.getElementById('post-id').value;
-  let url = `https://graph.facebook.com/v18.0/${pageId}_${postId}/comments?filter=stream&limit=500&access_token=${pageAccessToken}`;
+  let url = `https://graph.facebook.com/v18.0/${pageId}_${postId}/comments?filter=stream&fields=${fields}&limit=500&access_token=${pageAccessToken}`;
 
   const rows = [
-    ["Name", "User ID", "Comment", "Comment ID", "Comment URL", "Created Time"],
+    ["Name", "User ID", "Comment", "Comment ID", "Comment URL", "Attachment", "Created Time"],
   ];
 
   while (true) {
@@ -76,12 +78,24 @@ getCommentsBtn.addEventListener('click', async () => {
         const commentId = comment.id.split("_")[1];
         const commentUrl = `https://www.facebook.com/${postId}?comment_id=${commentId}`
 
+        let attachmentUrl = '';
+        if (comment.attachment && comment.attachment.url) {
+          attachmentUrl = comment.attachment.url;
+        }
+
+        let attachmentImageSrc = '';
+        if (comment.attachment && comment.attachment.media && comment.attachment.media.image) {
+          attachmentImageSrc = comment.attachment.media.image.src;
+        }
+        const attachment = [attachmentUrl, attachmentImageSrc].filter((s) => s !== '').join("\n");
+
         rows.push([
           comment.from.name,
           comment.from.id,
           `"${msg}"`,
-          comment.id,
+          commentId,
           commentUrl,
+          `"${attachment}"`,
           comment.created_time,
         ]);
       });
